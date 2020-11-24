@@ -39,11 +39,42 @@ contador = 0
 while True:
     display.fill((255, 255, 255))
     display.blit(background, (0, 0))
-    #Lista de eventos na tela
+    #Comandos do jogador
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             pygame.quit()
             quit()
         if evento.type == pygame.KEYDOWN:
-            if evento.key == 
+            if evento.key == pygame.K_LEFT:
+                alunoMovimento = -alunoVelocidade
+            elif evento.key == pygame.K_RIGHT:
+                alunoMovimento = alunoVelocidade
+        if evento.type == pygame.KEYUP:
+            alunoMovimento = 0
+    #movimentação do aluno
+    alunoPosicaoX = alunoPosicaoX + alunoMovimento
+    if alunoPosicaoX < 0:
+        alunoPosicaoX = 0
+    elif alunoPosicaoX > largura - alunoLargura:
+        alunoPosicaoX = largura -alunoLargura
+    display.blit(aluno, (alunoPosicaoX,alunoPosicaoY))
+    #aparição e movimentação das letras
+    letraPosicaoY = letraPosicaoY + letraVelocidade
+    escrevendoPlacar(contador)    
+    if letraPosicaoY > altura:
+        letraPosicaoX = 10 - letraAltura
+        letraVelocidade = letraVelocidade + 1
+        letraPosicaoX = random.randrange(0,largura)
+        contador += 1
+    display.blit(letra[random.randrange(0,5)], (letraPosicaoX,letraPosicaoY))
+    #Verificação de colisão
+    if alunoPosicaoX < letraPosicaoY + letraAltura:
+        if alunoPosicaoX < letraPosicaoX and alunoPosicaoX + alunoLargura > letraPosicaoX or letraPosicaoX+letraLargura > alunoPosicaoX and letraPosicaoX+letraLargura < alunoPosicaoX+alunoLargura:
+            dead()
+            letraVelocidade = 5
+            letraPosicaoY = 0 - letraAltura
+            contador = 0
+    pygame.display.update()
+    relogio.tick(60)
+print("Volte sempre...")
 
