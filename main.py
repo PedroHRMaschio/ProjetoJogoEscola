@@ -7,19 +7,19 @@ import time
 pygame.init()
 relogio = pygame.time.Clock()
 #visual
-pygame.pygame.set_caption("Tire apenas A ou B")
+pygame.display.set_caption("Tire apenas A ou B")
 icon = pygame.image.load("assets/icon.png")
 pygame.display.set_icon(icon)
-largura = 800
-altura = 600
-display = pygame.pygame.set_mode((largura,altura))
-background = pygame.image.load("assets/escolinha.png")
+largura = 1280
+altura = 720
+display = pygame.display.set_mode((largura,altura))
+background = pygame.image.load("assets/escolinha.jpg")
 aluno = pygame.image.load("assets/aluno.png")
 letra = [pygame.image.load("assets/LetraA.png"),pygame.image.load("assets/LetraB.png"),pygame.image.load("assets/LetraC.png"),pygame.image.load("assets/LetraD.png"),pygame.image.load("assets/LetraE.png"),pygame.image.load("assets/LetraF.png")]
 #parametros aluno
-alunoLargura = 120
-alunoPosicaoX = 360
-alunoPosicaoY = 470
+alunoLargura = 260
+alunoPosicaoX = 640
+alunoPosicaoY = 460
 alunoMovimento = 0
 alunoVelocidade = 10
 #parametros letras
@@ -34,7 +34,9 @@ pygame.mixer.music.load("assets/MusicaFundo.mp3")
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.1)
 
+indiceLetra = random.randrange(0,5)
 contador = 0
+vida = 5
 #Aqui o jogo começa
 while True:
     display.fill((255, 255, 255))
@@ -60,20 +62,25 @@ while True:
     display.blit(aluno, (alunoPosicaoX,alunoPosicaoY))
     #aparição e movimentação das letras
     letraPosicaoY = letraPosicaoY + letraVelocidade
-    escrevendoPlacar(contador)    
+    escrevendoPlacar(contador, display)    
     if letraPosicaoY > altura:
         letraPosicaoX = 10 - letraAltura
         letraVelocidade = letraVelocidade + 1
         letraPosicaoX = random.randrange(0,largura)
+        indiceLetra = random.randrange(0,5)
         contador += 1
-    display.blit(letra[random.randrange(0,5)], (letraPosicaoX,letraPosicaoY))
+    display.blit(letra[indiceLetra], (letraPosicaoX,letraPosicaoY))
     #Verificação de colisão
-    if alunoPosicaoX < letraPosicaoY + letraAltura:
-        if alunoPosicaoX < letraPosicaoX and alunoPosicaoX + alunoLargura > letraPosicaoX or letraPosicaoX+letraLargura > alunoPosicaoX and letraPosicaoX+letraLargura < alunoPosicaoX+alunoLargura:
-            dead()
-            letraVelocidade = 5
-            letraPosicaoY = 0 - letraAltura
-            contador = 0
+    if alunoPosicaoY < letraPosicaoY + letraAltura:
+        if alunoPosicaoX < letraPosicaoX and alunoPosicaoX + alunoLargura > letraPosicaoX or letraPosicaoX + letraLargura > alunoPosicaoX and letraPosicaoX+letraLargura < alunoPosicaoX+alunoLargura:
+            vida = vida - 1
+            if vida < 1:
+                dead(display)
+                letraVelocidade = 5
+                letraPosicaoY = 0 - letraAltura
+                contador = 0
+                vida = 5
+            
     pygame.display.update()
     relogio.tick(60)
 print("Volte sempre...")
