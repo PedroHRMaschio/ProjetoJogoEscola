@@ -16,5 +16,6 @@ altura = 720
 display = pygame.pygame.set_mode((largura,altura))
 background = pygame.image.load("assets/escolinha.png")
 aluno = pygame.image.load("assets/aluno.png")
+letra = [pygame.image.load("assets/LetraA.png"),pygame.image.load("assets/LetraB.png"),pygame.image.load("assets/LetraC.png"),pygame.image.load("assets/LetraD.png"),pygame.image.load("assets/LetraE.png"),pygame.image.load("assets/LetraF.png")]
 
-#teste de commit 2
+
