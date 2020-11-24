@@ -1,5 +1,5 @@
 #Jogo desvie das notas ruins
-from funcoes import escrevendoPlacar, dead
+from funcoes import escrevendoPlacar, dead, escrevendoVidas
 import pygame
 import random
 import time
@@ -32,11 +32,12 @@ letraVelocidade = 5
 #musica e afins
 pygame.mixer.music.load("assets/MusicaFundo.mp3")
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.1)
+pygame.mixer.music.set_volume(0.9)
 
 indiceLetra = random.randrange(0,5)
 contador = 0
 vida = 5
+tirouvida = False
 #Aqui o jogo começa
 while True:
     display.fill((255, 255, 255))
@@ -58,28 +59,38 @@ while True:
     if alunoPosicaoX < 0:
         alunoPosicaoX = 0
     elif alunoPosicaoX > largura - alunoLargura:
-        alunoPosicaoX = largura -alunoLargura
+        alunoPosicaoX = largura - alunoLargura
     display.blit(aluno, (alunoPosicaoX,alunoPosicaoY))
     #aparição e movimentação das letras
     letraPosicaoY = letraPosicaoY + letraVelocidade
-    escrevendoPlacar(contador, display)    
+    escrevendoPlacar(contador, display)
+    escrevendoVidas(vida, display)    
     if letraPosicaoY > altura:
-        letraPosicaoX = 10 - letraAltura
-        letraVelocidade = letraVelocidade + 1
+        tirouvida = False
+        letraPosicaoY = 10 - letraAltura
+        if letraVelocidade < 20:
+            letraVelocidade = letraVelocidade + 1
         letraPosicaoX = random.randrange(0,largura)
         indiceLetra = random.randrange(0,5)
         contador += 1
     display.blit(letra[indiceLetra], (letraPosicaoX,letraPosicaoY))
     #Verificação de colisão
-    if alunoPosicaoY < letraPosicaoY + letraAltura:
-        if alunoPosicaoX < letraPosicaoX and alunoPosicaoX + alunoLargura > letraPosicaoX or letraPosicaoX + letraLargura > alunoPosicaoX and letraPosicaoX+letraLargura < alunoPosicaoX+alunoLargura:
-            vida = vida - 1
-            if vida < 1:
-                dead(display)
-                letraVelocidade = 5
-                letraPosicaoY = 0 - letraAltura
-                contador = 0
-                vida = 5
+    if indiceLetra == 0:
+
+    elif indiceletra == 1:
+
+    else:
+        if alunoPosicaoY < letraPosicaoY:
+            if alunoPosicaoX > letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
+                if tirouvida == False:
+                    vida = vida - 1
+                    tirouvida = True
+                if vida < 1:
+                    dead(display)
+                    letraVelocidade = 5
+                    letraPosicaoY = 0 - letraAltura
+                    contador = 0
+                    vida = 5
             
     pygame.display.update()
     relogio.tick(60)

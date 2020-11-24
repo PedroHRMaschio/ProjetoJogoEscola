@@ -10,4 +10,8 @@ def dead(display):
     texto = font.render("Você Morreu!", True, (0, 0, 0))
     display.blit(texto, (300, 600))
     pygame.display.update()
-    time.sleep(5)
+    time.sleep(3)
+def escrevendoVidas(vida, display):
+    font = pygame.font.SysFont(None, 25)
+    texto = font.render("Vidas: "+str(vida), True, (255, 255, 255))
+    display.blit(texto, (600, 10))
