@@ -21,7 +21,7 @@ alunoLargura = 260
 alunoPosicaoX = 640
 alunoPosicaoY = 460
 alunoMovimento = 0
-alunoVelocidade = 10
+alunoVelocidade = 15
 #parametros letras
 letraLargura = 100
 letraAltura = 100
@@ -72,25 +72,42 @@ while True:
             letraVelocidade = letraVelocidade + 1
         letraPosicaoX = random.randrange(0,largura)
         indiceLetra = random.randrange(0,5)
-        contador += 1
     display.blit(letra[indiceLetra], (letraPosicaoX,letraPosicaoY))
     #Verificação de colisão
     if indiceLetra == 0:
-
-    elif indiceletra == 1:
-
+        if alunoPosicaoY < letraPosicaoY:
+            if alunoPosicaoX < letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
+                if tirouvida == False:    
+                    vida = vida+1
+                    contador = contador + 1
+                    tirouvida = True
+            else:
+                if tirouvida == False:
+                    vida = vida-1 
+                    tirouvida = True       
+    elif indiceLetra == 1:
+        if alunoPosicaoY < letraPosicaoY:
+            if alunoPosicaoX < letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
+                if tirouvida == False:    
+                    contador = contador + 1
+                    tirouvida = True
+            else:
+                if tirouvida == False:
+                    vida = vida-1 
+                    tirouvida = True 
     else:
         if alunoPosicaoY < letraPosicaoY:
-            if alunoPosicaoX > letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
+            if alunoPosicaoX < letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
                 if tirouvida == False:
                     vida = vida - 1
                     tirouvida = True
-                if vida < 1:
-                    dead(display)
-                    letraVelocidade = 5
-                    letraPosicaoY = 0 - letraAltura
-                    contador = 0
-                    vida = 5
+
+    if vida < 1:
+        dead(display)
+        letraVelocidade = 5
+        letraPosicaoY = 0 - letraAltura
+        contador = 0
+        vida = 5
             
     pygame.display.update()
     relogio.tick(60)
