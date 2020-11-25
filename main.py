@@ -17,11 +17,11 @@ background = pygame.image.load("assets/escolinha.jpg")
 aluno = pygame.image.load("assets/aluno.png")
 letra = [pygame.image.load("assets/LetraA.png"),pygame.image.load("assets/LetraB.png"),pygame.image.load("assets/LetraC.png"),pygame.image.load("assets/LetraD.png"),pygame.image.load("assets/LetraE.png"),pygame.image.load("assets/LetraF.png")]
 #parametros aluno
-alunoLargura = 260
+alunoLargura = 130
 alunoPosicaoX = 640
 alunoPosicaoY = 460
 alunoMovimento = 0
-alunoVelocidade = 15
+alunoVelocidade = 20
 #parametros letras
 letraLargura = 100
 letraAltura = 100
@@ -38,6 +38,7 @@ indiceLetra = random.randrange(0,5)
 contador = 0
 vida = 5
 tirouvida = False
+contou = False
 #Aqui o jogo começa
 while True:
     display.fill((255, 255, 255))
@@ -67,8 +68,9 @@ while True:
     escrevendoVidas(vida, display)    
     if letraPosicaoY > altura:
         tirouvida = False
+        contou = False
         letraPosicaoY = 10 - letraAltura
-        if letraVelocidade < 20:
+        if letraVelocidade < 5:
             letraVelocidade = letraVelocidade + 1
         letraPosicaoX = random.randrange(0,largura)
         indiceLetra = random.randrange(0,5)
@@ -76,7 +78,7 @@ while True:
     #Verificação de colisão
     if indiceLetra == 0:
         if alunoPosicaoY < letraPosicaoY:
-            if alunoPosicaoX < letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
+            if alunoPosicaoX < letraPosicaoX + alunoLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
                 if tirouvida == False:    
                     vida = vida+1
                     contador = contador + 1
@@ -87,7 +89,7 @@ while True:
                     tirouvida = True       
     elif indiceLetra == 1:
         if alunoPosicaoY < letraPosicaoY:
-            if alunoPosicaoX < letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
+            if alunoPosicaoX < letraPosicaoX + alunoLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
                 if tirouvida == False:    
                     contador = contador + 1
                     tirouvida = True
@@ -97,10 +99,14 @@ while True:
                     tirouvida = True 
     else:
         if alunoPosicaoY < letraPosicaoY:
-            if alunoPosicaoX < letraPosicaoX and letraPosicaoX < alunoPosicaoX + alunoLargura:
+            if alunoPosicaoX < letraPosicaoX + alunoLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
                 if tirouvida == False:
                     vida = vida - 1
                     tirouvida = True
+            if contou == False:
+                contador = contador + 1
+                contou = True
+
 
     if vida < 1:
         dead(display)
