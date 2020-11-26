@@ -15,11 +15,17 @@ altura = 720
 display = pygame.display.set_mode((largura,altura))
 background = pygame.image.load("assets/escolinha.jpg")
 aluno = pygame.image.load("assets/aluno.png")
-letra = [pygame.image.load("assets/LetraA.png"),pygame.image.load("assets/LetraB.png"),pygame.image.load("assets/LetraC.png"),pygame.image.load("assets/LetraD.png"),pygame.image.load("assets/LetraE.png"),pygame.image.load("assets/LetraF.png")]
+letra = [
+    pygame.image.load("assets/LetraA.png"),
+    pygame.image.load("assets/LetraB.png"),
+    pygame.image.load("assets/LetraC.png"),
+    pygame.image.load("assets/LetraD.png"),
+    pygame.image.load("assets/LetraE.png"),
+    pygame.image.load("assets/LetraF.png")]
 #parametros aluno
 alunoLargura = 130
 alunoPosicaoX = 640
-alunoPosicaoY = 460
+alunoPosicaoY = 520
 alunoMovimento = 0
 alunoVelocidade = 20
 #parametros letras
@@ -29,11 +35,17 @@ letraPosicaoX = 360
 letraPosicaoY = 10 - letraAltura
 letraMovimento = 0
 letraVelocidade = 5
-#musica e afins
+#musica e sons
 pygame.mixer.music.load("assets/MusicaFundo.mp3")
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.9)
-
+pygame.mixer.music.set_volume(0.2)
+Sucesso = pygame.mixer.Sound("assets/Sucesso.wav")
+Errou = pygame.mixer.Sound("assets/Errou.wav")
+Morreu = pygame.mixer.Sound("assets/Morreu.wav")
+Sucesso.set_volume(0.6)
+Errou.set_volume(0.8)
+Morreu.set_volume(0.8)
+#Variáveis importantes
 indiceLetra = random.randrange(0,5)
 contador = 0
 vida = 5
@@ -70,51 +82,56 @@ while True:
         tirouvida = False
         contou = False
         letraPosicaoY = 10 - letraAltura
-        if letraVelocidade < 5:
+        if letraVelocidade < 20:
             letraVelocidade = letraVelocidade + 1
-        letraPosicaoX = random.randrange(0,largura)
-        indiceLetra = random.randrange(0,5)
+        letraPosicaoX = random.randrange(0,largura-100)
+        indiceLetra = random.randrange(0,6)
     display.blit(letra[indiceLetra], (letraPosicaoX,letraPosicaoY))
     #Verificação de colisão
     if indiceLetra == 0:
         if alunoPosicaoY < letraPosicaoY:
-            if alunoPosicaoX < letraPosicaoX + alunoLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
+            if alunoPosicaoX < letraPosicaoX + letraLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
                 if tirouvida == False:    
                     vida = vida+1
                     contador = contador + 1
                     tirouvida = True
+                    pygame.mixer.Sound.play(Sucesso)
             else:
                 if tirouvida == False:
-                    vida = vida-1 
-                    tirouvida = True       
+                    vida = vida-1
+                    tirouvida = True
+                    pygame.mixer.Sound.play(Errou)
     elif indiceLetra == 1:
         if alunoPosicaoY < letraPosicaoY:
-            if alunoPosicaoX < letraPosicaoX + alunoLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
+            if alunoPosicaoX < letraPosicaoX + letraLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
                 if tirouvida == False:    
                     contador = contador + 1
                     tirouvida = True
+                    pygame.mixer.Sound.play(Sucesso)
             else:
                 if tirouvida == False:
                     vida = vida-1 
-                    tirouvida = True 
+                    tirouvida = True
+                    pygame.mixer.Sound.play(Errou) 
     else:
         if alunoPosicaoY < letraPosicaoY:
-            if alunoPosicaoX < letraPosicaoX + alunoLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
+            if alunoPosicaoX < letraPosicaoX + letraLargura and letraPosicaoX < alunoPosicaoX + alunoLargura:
                 if tirouvida == False:
                     vida = vida - 1
                     tirouvida = True
+                    pygame.mixer.Sound.play(Errou) 
             if contou == False:
                 contador = contador + 1
                 contou = True
 
 
-    if vida < 1:
-        dead(display)
+    if vida < 1: 
+        dead(display,Morreu)
         letraVelocidade = 5
         letraPosicaoY = 0 - letraAltura
         contador = 0
         vida = 5
-            
+
     pygame.display.update()
     relogio.tick(60)
 print("Volte sempre...")
