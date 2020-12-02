@@ -3,6 +3,11 @@ from funcoes import escrevendoPlacar, dead, escrevendoVidas
 import pygame
 import random
 import time
+
+nome = input("Digite seu nome: ")
+email = input("Digite seu e-mail: ")
+
+
 #inicialização
 pygame.init()
 relogio = pygame.time.Clock()
@@ -52,10 +57,22 @@ vida = 5
 tirouvida = False
 contou = False
 #Aqui o jogo começa
+
+
+
+arquivo = open("dados.txt","a")
+
+arquivo.write(nome+" | ")
+arquivo.write(email)
+arquivo.write("\n")
+arquivo.close()
+
+
+
 while True:
     display.fill((255, 255, 255))
     display.blit(background, (0, 0))
-    #Comandos do jogador
+    #Comando do jogador
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             pygame.quit()
